@@ -30,7 +30,7 @@ const RegisterPage = () => {
       <TextField id="outlined-basic" label="Email" variant="outlined" required  onChange={(e)=>{setEmail(e.target.value)}}/>
       <TextField id="outlined-basic" label="Password" variant="outlined" required onChange={(e)=>{setPassword(e.target.value)}}/>
       <TextField id="outlined-basic" label="First Name" variant="outlined" required onChange={(e)=>{setFirstName(e.target.value)}}/>
-      <TextField id="outlined-basic" label="Last Name" variant="outlined" required onChange={(e)=>{setLastName(e.target.value)} />
+      <TextField id="outlined-basic" label="Last Name" variant="outlined" required onChange={(e)=>{setLastName(e.target.value)}} />
       <TextField id="outlined-basic" label="Company Name" variant="outlined" required onChange={(e)=>{setCompanyName(e.target.value)}}/>
       <Button variant="contained" size="large" onClick={()=>{alert("press!")}}>REGISTER</Button>
     </Box>
