@@ -44,8 +44,8 @@ const RegisterForm = () => {
 
     >
       <Typography variant='h4' align="center" color="#1976d2" fontWeight="bold">REGISTER YOUR TANENT</Typography>
-      <TextField id="outlined-basic" label="Email" variant="outlined" value={email} required onChange={(e) => { setEmail(e.target.value) }} />
-      <TextField id="outlined-basic" label="Password" variant="outlined" value={password} required onChange={(e) => { setPassword(e.target.value) }} />
+      <TextField id="outlined-basic" label="Email" type="email" variant="outlined" value={email} required onChange={(e) => { setEmail(e.target.value) }} />
+      <TextField id="outlined-basic" label="Password" type="password" variant="outlined" pass value={password} required onChange={(e) => { setPassword(e.target.value) }} />
       <TextField id="outlined-basic" label="First Name" variant="outlined" value={firstName} required onChange={(e) => { setFirstName(e.target.value) }} />
       <TextField id="outlined-basic" label="Last Name" variant="outlined" value={lastName} required onChange={(e) => { setLastName(e.target.value) }} />
       <TextField id="outlined-basic" label="Company Name" variant="outlined" value={companyName} required onChange={(e) => { setCompanyName(e.target.value) }} />
