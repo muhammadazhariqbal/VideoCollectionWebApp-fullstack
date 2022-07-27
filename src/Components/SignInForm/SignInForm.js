@@ -3,14 +3,16 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { registerTenant } from '../../Services/firebase';
+import { signInTenant, authenticateTenantUsingGoogle } from '../../Services/firebase';
 
 const SignInForm = () => {
   // states for storing user input details
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const signIn = () => {
+    signInTenant(email, password)
+  }
 
- 
   return (
     <Box
       component="form"
@@ -28,9 +30,10 @@ const SignInForm = () => {
 
     >
       <Typography variant='h4' align="center" color="#1976d2" fontWeight="bold">SIGN IN TO YOUR TANENT ACCOUNT</Typography>
-      <TextField id="outlined-basic" label="Email" type="email" variant="outlined" value={email} required onChange={(e) => { setEmail(e.target.value) }} />
-      <TextField id="outlined-basic" label="Password" type="password" variant="outlined" pass value={password} required onChange={(e) => { setPassword(e.target.value) }} />
-      <Button variant="contained" size="large" onClick={() => { alert("x") }}>REGISTER</Button>
+      <TextField label="Email" type="email" variant="outlined" value={email} required onChange={(e) => { setEmail(e.target.value) }} />
+      <TextField label="Password" type="password" variant="outlined" value={password} required onChange={(e) => { setPassword(e.target.value) }} />
+      <Button variant="contained" size="large" onClick={() => { signIn() }}>SIGN IN</Button>
+      <Button variant="contained" size="large" onClick={() => { authenticateTenantUsingGoogle() }}>SIGN IN USING GOOGLE</Button>
     </Box>
   );
 }

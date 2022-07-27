@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { registerTenant } from '../../Services/firebase';
+import { registerTenant, authenticateTenantUsingGoogle } from '../../Services/firebase';
 
 const RegisterForm = () => {
   // states for storing user input details
@@ -44,12 +44,13 @@ const RegisterForm = () => {
 
     >
       <Typography variant='h4' align="center" color="#1976d2" fontWeight="bold">REGISTER YOUR TANENT</Typography>
-      <TextField id="outlined-basic" label="Email" type="email" variant="outlined" value={email} required onChange={(e) => { setEmail(e.target.value) }} />
-      <TextField id="outlined-basic" label="Password" type="password" variant="outlined" pass value={password} required onChange={(e) => { setPassword(e.target.value) }} />
-      <TextField id="outlined-basic" label="First Name" variant="outlined" value={firstName} required onChange={(e) => { setFirstName(e.target.value) }} />
-      <TextField id="outlined-basic" label="Last Name" variant="outlined" value={lastName} required onChange={(e) => { setLastName(e.target.value) }} />
-      <TextField id="outlined-basic" label="Company Name" variant="outlined" value={companyName} required onChange={(e) => { setCompanyName(e.target.value) }} />
+      <TextField label="Email" type="email" variant="outlined" value={email} required onChange={(e) => { setEmail(e.target.value) }} />
+      <TextField label="Password" type="password" variant="outlined" value={password} required onChange={(e) => { setPassword(e.target.value) }} />
+      <TextField label="First Name" variant="outlined" value={firstName} required onChange={(e) => { setFirstName(e.target.value) }} />
+      <TextField label="Last Name" variant="outlined" value={lastName} required onChange={(e) => { setLastName(e.target.value) }} />
+      <TextField label="Company Name" variant="outlined" value={companyName} required onChange={(e) => { setCompanyName(e.target.value) }} />
       <Button variant="contained" size="large" onClick={() => { getAndRegisterTenant() }}>REGISTER</Button>
+      <Button variant="contained" size="large" onClick={() => { authenticateTenantUsingGoogle() }}>REGISTER USING GOOGLE</Button>
     </Box>
   );
 }
