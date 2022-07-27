@@ -1,2 +1,3 @@
-import RegisterPage from "./RegisterPage/RegisterPage";
-export {RegisterPage};
+import RegisterPage from "./RegisterPage/RegisterPage.js";
+import SignInPage from "./SignInPage/SignInPage.js";
+export {RegisterPage,SignInPage};

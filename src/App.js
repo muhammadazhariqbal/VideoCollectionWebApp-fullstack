@@ -1,9 +1,9 @@
 import logo from './logo.svg';
 import './App.css';
-import {RegisterPage} from './Pages/index';
+import {RegisterPage, SignInPage} from './Pages/index';
 function App() {
   return (
-    <RegisterPage/>
+    <SignInPage/>
   );
 }
 

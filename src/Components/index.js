@@ -1,2 +1,3 @@
 import RegisterForm from "./RegisterForm/RegisterForm.js";
-export {RegisterForm};
+import SignInForm from "./SignInForm/SignInForm.js";
+export {RegisterForm,SignInForm};
