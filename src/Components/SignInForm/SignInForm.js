@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { signInTenant, authenticateTenantUsingGoogle } from '../../Services/firebase';
-
+import { useNavigate } from "react-router-dom";
 const SignInForm = () => {
   // states for storing user input details
   const [email, setEmail] = useState('');
@@ -12,7 +12,7 @@ const SignInForm = () => {
   const signIn = () => {
     signInTenant(email, password)
   }
-
+  let navigate = useNavigate();
   return (
     <Box
       component="form"
@@ -34,7 +34,11 @@ const SignInForm = () => {
       <TextField label="Password" type="password" variant="outlined" value={password} required onChange={(e) => { setPassword(e.target.value) }} />
       <Button variant="contained" size="large" onClick={() => { signIn() }}>SIGN IN</Button>
       <Button variant="contained" size="large" onClick={() => { authenticateTenantUsingGoogle() }}>SIGN IN USING GOOGLE</Button>
+      <Button variant="contained" size="large" onClick={() => { navigate('/RegisterTenant') }}>CREATE NEW ACCOUNT</Button>
+
+    
     </Box>
+
   );
 }
 export default SignInForm; 

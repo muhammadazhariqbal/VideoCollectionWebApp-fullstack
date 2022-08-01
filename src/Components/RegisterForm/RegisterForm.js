@@ -4,8 +4,9 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { registerTenant, authenticateTenantUsingGoogle } from '../../Services/firebase';
-
+import { useNavigate } from "react-router-dom";
 const RegisterForm = () => {
+  let navigate = useNavigate();
   // states for storing user input details
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -51,6 +52,7 @@ const RegisterForm = () => {
       <TextField label="Company Name" variant="outlined" value={companyName} required onChange={(e) => { setCompanyName(e.target.value) }} />
       <Button variant="contained" size="large" onClick={() => { getAndRegisterTenant() }}>REGISTER</Button>
       <Button variant="contained" size="large" onClick={() => { authenticateTenantUsingGoogle() }}>REGISTER USING GOOGLE</Button>
+      <Button variant="text" size="large" onClick={() => { navigate('/') }}>Sign In</Button>
     </Box>
   );
 }
