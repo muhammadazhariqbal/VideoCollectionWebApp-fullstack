@@ -124,7 +124,24 @@ const signOutTenant = () => {
     .then(res => { console.log("sign out success!") })
     .catch(error => { console.log(error.message) })
 }
+const addUploadVideoDetails = async (name, email, videoURL, tenantID) => {
+  try {
+    const docRef = await addDoc(collection(db, "allVideosWithDetails"), {
+      name,
+      email,
+      videoURL,
+      tenantID,
+      
+    });
+    // console.log("Document written with ID: ", docRef.id);
+    alert("Thanks for Uploading Video!")
 
+  } catch (e) {
+    console.error("Error adding document: ", e);
+    alert(e)
+  }
+
+}
 const uploadVideoToFirebase = (file) => {
 
 
@@ -189,6 +206,7 @@ export {
   authUserStateObserver,
   signOutTenant,
   uploadVideoToFirebase,
+  addUploadVideoDetails
 
 
 };

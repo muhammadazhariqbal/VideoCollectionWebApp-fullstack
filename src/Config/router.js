@@ -10,10 +10,10 @@ const Navigation = ({authListener}) => {
     
     authListener()
     .then((res)=>{
-        console.log(res)
+        console.log(res);
     })
     
-    var x = 122;
+
   return <BrowserRouter>
     <Routes>
       <Route path="/" element={<SignInPage />}></Route>
