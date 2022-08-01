@@ -41,8 +41,6 @@ const RegisterForm = () => {
       alignItems="center"
       margin={2}
       padding={5}
-
-
     >
       <Typography variant='h4' align="center" color="#1976d2" fontWeight="bold">REGISTER YOUR TANENT</Typography>
       <TextField label="Email" type="email" variant="outlined" value={email} required onChange={(e) => { setEmail(e.target.value) }} />

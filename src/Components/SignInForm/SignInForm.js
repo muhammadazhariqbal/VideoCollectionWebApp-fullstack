@@ -36,7 +36,7 @@ const SignInForm = () => {
       <Button variant="contained" size="large" onClick={() => { authenticateTenantUsingGoogle() }}>SIGN IN USING GOOGLE</Button>
       <Button variant="contained" size="large" onClick={() => { navigate('/RegisterTenant') }}>CREATE NEW ACCOUNT</Button>
 
-    
+
     </Box>
 
   );

@@ -100,24 +100,24 @@ const authenticateTenantUsingGoogle = () => {
 }
 const authUserStateObserver = () => {
 
-  return new Promise((resolve,reject)=>{
+  return new Promise((resolve, reject) => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
         const uid = user.uid;
-      
+
         resolve(uid)
         // ...
       } else {
         // User is signed out
         // ...
-      
+
         resolve(false)
       }
     });
   })
- 
+
 }
 const signOutTenant = () => {
   signOut(auth)
@@ -131,7 +131,7 @@ const addUploadVideoDetails = async (name, email, videoURL, tenantID) => {
       email,
       videoURL,
       tenantID,
-      
+
     });
     // console.log("Document written with ID: ", docRef.id);
     alert("Thanks for Uploading Video!")
@@ -183,7 +183,7 @@ const uploadVideoToFirebase = (file) => {
 
           case 'storage/unknown':
             // Unknown error occurred, inspect error.serverResponse
-           reject(error.serverResponse)
+            reject(error.serverResponse)
             break;
         }
       },
@@ -207,7 +207,5 @@ export {
   signOutTenant,
   uploadVideoToFirebase,
   addUploadVideoDetails
-
-
 };
 
