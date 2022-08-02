@@ -6,12 +6,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+import { Button, Typography } from '@mui/material';
+function createData(name, email, videoLink, status, action) {
+  return { name,  email, videoLink, status,action };
 }
 
 const rows = [
-  createData('Tester', 'test@gmail.com', "www.google.com", "ac"),
+  createData('Tester', 'test@gmail.com', "www.google.com", "rejected"),
 
 ];
 
@@ -25,6 +26,7 @@ const VideoDetailsTable = () => {
             <TableCell>Costumer Name</TableCell>
             <TableCell >Email</TableCell>
             <TableCell >Uploaded Video</TableCell>
+            <TableCell>Status</TableCell>
             <TableCell>Action</TableCell>
 
           </TableRow>
@@ -38,10 +40,17 @@ const VideoDetailsTable = () => {
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
-              <TableCell >{row.calories}</TableCell>
-              <TableCell  >{row.fat}</TableCell>
-              <TableCell  >{row.carbs}</TableCell>
-              <TableCell  >{row.protein}</TableCell>
+              <TableCell >{row.email}</TableCell>
+              <TableCell  >{row.videoLink}</TableCell>
+              <TableCell  >
+
+                <Typography variant="p" color={row.status==="pending" ? "blue" : row.status==="approved" ? "green" : row.status === "rejected" ? "red" : null}>{row.status}</Typography>
+              </TableCell>
+              <TableCell>
+                <Button>APPROVE</Button>
+                <Button>REJECT</Button>
+              </TableCell>
+             
             </TableRow>
           ))}
         </TableBody>

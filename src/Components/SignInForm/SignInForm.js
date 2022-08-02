@@ -14,7 +14,7 @@ const SignInForm = ({user}) => {
   const signIn = () => {
     signInTenant(email, password)
     .then(res=>{
-   navigate('/dashboard');
+   navigate("/dashboard");
     })
     .catch(error=>{
       alert(error);

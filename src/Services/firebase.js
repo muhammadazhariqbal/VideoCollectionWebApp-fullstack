@@ -4,7 +4,8 @@ import { initializeApp } from "firebase/app";
 // https://firebase.google.com/docs/web/setup#available-libraries
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "firebase/auth";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
+
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -70,9 +71,9 @@ const signInTenant = (email, password) => {
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in 
-      const user = userCredential.user;
+    const user = userCredential.user;
      resolve(user)
-     
+    
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -107,27 +108,7 @@ const authenticateTenantUsingGoogle = () => {
       // ...
     });
 }
-const authUserStateObserver = () => {
 
-  return new Promise((resolve, reject) => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-      
-
-        resolve(user)
-        // ...
-      } else {
-        // User is signed out
-        // ...
-
-        resolve(false)
-      }
-    });
-  })
-
-}
 const signOutTenant = () => {
   signOut(auth)
     .then(res => { console.log("sign out success!") })
@@ -207,14 +188,40 @@ const uploadVideoToFirebase = (file) => {
 
 }
 
+const getAllTenantData = () => {
+  return new Promise(async(resolve,reject)=>{
+    
+
+const querySnapshot = await getDocs(collection(db, "allTenants"));
+querySnapshot.forEach((doc) => {
+  // console.log(`${doc.id} => ${doc.data()}`);
+  resolve(doc.data())
+});
+  })
+}
+const getAllVideoDetails = () => {
+  return new Promise(async(resolve,reject)=>{
+    
+
+const querySnapshot = await getDocs(collection(db, "allVideosWithDetails"));
+querySnapshot.forEach((doc) => {
+  // console.log(`${doc.id} => ${doc.data()}`);
+  resolve(doc.data())
+});
+  })
+}
+
 
 export {
   registerTenant,
   signInTenant,
   authenticateTenantUsingGoogle,
-  authUserStateObserver,
   signOutTenant,
   uploadVideoToFirebase,
-  addUploadVideoDetails
+  addUploadVideoDetails,
+  getAllTenantData,
+  getAllVideoDetails,
+  auth,
+  onAuthStateChanged
 };
 
