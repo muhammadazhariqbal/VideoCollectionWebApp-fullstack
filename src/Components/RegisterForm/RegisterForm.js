@@ -24,7 +24,13 @@ const RegisterForm = () => {
   // get and call firebase register method
   const getAndRegisterTenant = () => {
     var ID = companyName.replace(/\s+/g, '-');
-    registerTenant(email, password, firstName, lastName, companyName, ID);
+    registerTenant(email, password, firstName, lastName, companyName, ID)
+    .then(res=>{
+      navigate('/dashboard');
+    })
+    .catch(error=>{
+      alert(error);
+    })
     resetUserInputFields();
 
   }

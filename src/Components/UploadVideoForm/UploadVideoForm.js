@@ -6,16 +6,18 @@ import TextareaAutosize from '@mui/material/TextareaAutosize';
 import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button';
 import { uploadVideoToFirebase, addUploadVideoDetails } from '../../Services/firebase';
-
+import {useParams } from 'react-router-dom'
 
 const UploadVideoForm = () => {
+    let { id } = useParams();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [tenantID, setTenantID] = useState('');
+    const [tenantID, setTenantID] = useState(id);
     const [msg, setMsg] = useState('');
     const [isShowBTN, setIsShowBTN] = useState(true);
     const [videoFile, setVideoFile] = useState([]);
-
+  
+    
     const resetUserInputFields = () => {
         setName('')
         setEmail('')
@@ -59,7 +61,7 @@ const UploadVideoForm = () => {
             <TextField type="file" variant="outlined" accept="video/mp4,video/x-m4v,video/*" onChange={(e) => {setVideoFile(e)}} />
             <TextField label="Name" type="text" variant="outlined" value={name} required onChange={(e) => { setName(e.target.value) }} />
             <TextField label="Email" type="email" variant="outlined" value={email} required onChange={(e) => { setEmail(e.target.value) }} />
-            <TextField label="Tanent ID" type="text" variant="outlined" value={tenantID} required onChange={(e) => { setTenantID(e.target.value) }} />
+            <TextField label="Tanent ID" type="text" variant="outlined" value={tenantID} disabled onChange={(e) => { setTenantID(e.target.value) }} />
             <InputLabel>Message for your Tenant</InputLabel>
             <TextareaAutosize
                 aria-label="empty textarea"

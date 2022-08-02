@@ -5,6 +5,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "firebase/auth";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 import { getFirestore, collection, addDoc } from "firebase/firestore";
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCx6H2bsBp6oJMmowD9TNieb-rApkvudj8",
@@ -48,31 +49,39 @@ const addRegisteredTenantDetails = async (email, firstName, lastName, companyNam
 
 }
 const registerTenant = (email, password, firstName, lastName, companyName, tenantID) => {
-  console.log(`on firebase file ${tenantID}`)
-  createUserWithEmailAndPassword(auth, email, password)
+  return new Promise((resolve,reject)=>{
+    createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in 
       const user = userCredential.user;
       addRegisteredTenantDetails(email, firstName, lastName, companyName, tenantID, user.uid);
+      resolve(user);
     })
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
-      alert(errorMessage)
+     reject(errorMessage);
     });
+  })
+  
 }
 const signInTenant = (email, password) => {
-  signInWithEmailAndPassword(auth, email, password)
+  return new Promise((resolve,reject)=>{
+    signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in 
       const user = userCredential.user;
-      console.log(user)
+     resolve(user)
+     
     })
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
-      alert(errorMessage)
+      reject(errorMessage)
     });
+
+  })
+ 
 }
 
 const authenticateTenantUsingGoogle = () => {
@@ -105,9 +114,9 @@ const authUserStateObserver = () => {
       if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
-        const uid = user.uid;
+      
 
-        resolve(uid)
+        resolve(user)
         // ...
       } else {
         // User is signed out
