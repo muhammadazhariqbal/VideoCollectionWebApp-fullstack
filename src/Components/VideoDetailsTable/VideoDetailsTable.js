@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -6,17 +6,49 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Button, Typography } from '@mui/material';
+import { Button, Link, Typography } from '@mui/material';
+import { getAllTenantData, getAllVideoDetails } from "../../Services/firebase";
 function createData(name, email, videoLink, status, action) {
-  return { name,  email, videoLink, status,action };
+  return { name, email, videoLink, status, action };
 }
 
-const rows = [
-  createData('Tester', 'test@gmail.com', "www.google.com", "rejected"),
 
-];
+const VideoDetailsTable = ({ user }) => {
 
-const VideoDetailsTable = () => {
+  const [currentUser, setcurrentUser] = useState('');
+  const [allVideos, setAllVideos] = useState([]);
+  const [allVideosOfCurrentUser, setAllVideosOfCurrentUser] = useState([]);
+  const setAuthAndVideosOfCurrentUser = async () => {
+    await getAllTenantData()
+      .then((response) => {
+        response.forEach((x) => {
+          if (user.uid === x.data().userID) {
+            setcurrentUser(x.data());
+           
+            getAllVideoDetails()
+              .then(response => {
+                response.forEach((doc) => {
+
+                  if (doc.data().tenantID === x.data().tenantID) {
+                    setAllVideos(doc.data())
+                  }
+                })
+              })
+
+
+          }
+        })
+      })
+
+
+  }
+  useEffect(() => {
+    setAuthAndVideosOfCurrentUser();
+
+  }, [])
+
+  const rows = [allVideos];
+  console.log(rows);
   return (
 
     <TableContainer component={Paper}>
@@ -32,27 +64,35 @@ const VideoDetailsTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell >{row.email}</TableCell>
-              <TableCell  >{row.videoLink}</TableCell>
-              <TableCell  >
+          
+           {rows.map(data=>{
 
-                <Typography variant="p" color={row.status==="pending" ? "blue" : row.status==="approved" ? "green" : row.status === "rejected" ? "red" : null}>{row.status}</Typography>
-              </TableCell>
-              <TableCell>
-                <Button>APPROVE</Button>
-                <Button>REJECT</Button>
-              </TableCell>
-             
-            </TableRow>
-          ))}
+            if(data){
+           
+           
+            return  <TableRow
+            key={data.tenantID}
+            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+          >
+            <TableCell component="th" scope="row">
+              {data.name}
+            </TableCell>
+            <TableCell >{data.email}</TableCell>
+            <TableCell  >
+              <Link href={data.videoURL} target="_blank"underline="hover">View Video</Link>
+            </TableCell>
+            <TableCell  >
+
+              <Typography variant="p" color={data.VideoStatus==="Pending" ? "blue" : data.VideoStatus==="Approved" ? "green" : data.VideoStatus === "Rejected" ? "red" : null}>{data.videoStatus}</Typography>
+            </TableCell>
+            <TableCell>
+              <Button>APPROVE</Button>
+              <Button>REJECT</Button>
+            </TableCell>
+           
+          </TableRow>  } 
+           })}
+           
         </TableBody>
       </Table>
     </TableContainer>

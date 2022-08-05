@@ -4,7 +4,7 @@ import { initializeApp } from "firebase/app";
 // https://firebase.google.com/docs/web/setup#available-libraries
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "firebase/auth";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
-import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs ,doc, onSnapshot} from "firebase/firestore";
 
 
 // Your web app's Firebase configuration
@@ -121,6 +121,7 @@ const addUploadVideoDetails = async (name, email, videoURL, tenantID) => {
       email,
       videoURL,
       tenantID,
+      videoStatus:'Pending'
 
     });
     // console.log("Document written with ID: ", docRef.id);
@@ -190,13 +191,9 @@ const uploadVideoToFirebase = (file) => {
 
 const getAllTenantData = () => {
   return new Promise(async(resolve,reject)=>{
-    
+    const querySnapshot = await getDocs(collection(db, "allTenants"));
+    resolve(querySnapshot)
 
-const querySnapshot = await getDocs(collection(db, "allTenants"));
-querySnapshot.forEach((doc) => {
-  // console.log(`${doc.id} => ${doc.data()}`);
-  resolve(doc.data())
-});
   })
 }
 const getAllVideoDetails = () => {
@@ -204,11 +201,9 @@ const getAllVideoDetails = () => {
     
 
 const querySnapshot = await getDocs(collection(db, "allVideosWithDetails"));
-querySnapshot.forEach((doc) => {
-  // console.log(`${doc.id} => ${doc.data()}`);
-  resolve(doc.data())
+resolve(querySnapshot);
 });
-  })
+  
 }
 
 

@@ -71,7 +71,7 @@ const UploadVideoForm = () => {
                 onChange={(e) => { setMsg(e.target.value) }}
 
             />
-            {isShowBTN ? <Button variant="contained" size="large" onClick={() => {uploadVideoAndDetails()}}>Upload</Button> : <InputLabel>Please Wait! Your Video Details is uploading....</InputLabel>}
+            {isShowBTN ? <Button variant="contained" size="large" onClick={() => {uploadVideoAndDetails()}}>Upload</Button> : <Typography variant="p">Please Wait! Your Video  is uploading....</Typography>}
 
 
         </Box>
