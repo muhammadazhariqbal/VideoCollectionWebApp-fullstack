@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button, Link, Typography } from '@mui/material';
-import { getAllTenantData, getAllVideoDetails } from "../../Services/firebase";
+import { getAllTenantData, getAllVideoDetails,updateFirebaseDocValue } from "../../Services/firebase";
 function createData(name, email, videoLink, status, action) {
   return { name, email, videoLink, status, action };
 }
@@ -30,7 +30,8 @@ const VideoDetailsTable = ({ user }) => {
                 response.forEach((doc) => {
 
                   if (doc.data().tenantID === x.data().tenantID) {
-                    setAllVideos(doc.data())
+                    setAllVideos({...doc.data(),docID : doc.id})
+                    
                   }
                 })
               })
@@ -83,11 +84,17 @@ const VideoDetailsTable = ({ user }) => {
             </TableCell>
             <TableCell  >
 
-              <Typography variant="p" color={data.VideoStatus==="Pending" ? "blue" : data.VideoStatus==="Approved" ? "green" : data.VideoStatus === "Rejected" ? "red" : null}>{data.videoStatus}</Typography>
+              <Typography variant="p" color={data.videoStatus==="Pending" ? "blue" : data.videoStatus==="Approved" ? "green" : data.videoStatus === "Rejected" ? "red" : null}>{data.videoStatus}</Typography>
             </TableCell>
             <TableCell>
-              <Button>APPROVE</Button>
-              <Button>REJECT</Button>
+              <Button onClick={()=>{
+                updateFirebaseDocValue(data.docID,"Approved");
+                setAuthAndVideosOfCurrentUser();
+              }}>APPROVE</Button>
+              <Button onClick={()=>{
+                updateFirebaseDocValue(data.docID,"Rejected");
+                setAuthAndVideosOfCurrentUser();
+              }}>REJECT</Button>
             </TableCell>
            
           </TableRow>  } 

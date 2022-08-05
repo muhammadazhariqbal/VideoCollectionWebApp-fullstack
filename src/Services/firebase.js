@@ -4,7 +4,7 @@ import { initializeApp } from "firebase/app";
 // https://firebase.google.com/docs/web/setup#available-libraries
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "firebase/auth";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
-import { getFirestore, collection, addDoc, getDocs ,doc, onSnapshot} from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs ,doc, updateDoc , documentId} from "firebase/firestore";
 
 
 // Your web app's Firebase configuration
@@ -121,10 +121,11 @@ const addUploadVideoDetails = async (name, email, videoURL, tenantID) => {
       email,
       videoURL,
       tenantID,
-      videoStatus:'Pending'
+      videoStatus:'Pending',
+      docID : documentId()
 
     });
-    // console.log("Document written with ID: ", docRef.id);
+    console.log("Document written with ID: ", docRef.id);
     alert("Thanks for Uploading Video!")
 
   } catch (e) {
@@ -206,6 +207,15 @@ resolve(querySnapshot);
   
 }
 
+const updateFirebaseDocValue= (docID,value) => {
+  console.log(`doc id : ${docID}  value : ${value}`)
+  const docRef = doc(db, "allVideosWithDetails", docID);
+   updateDoc(docRef, {
+    videoStatus: value
+  });
+  
+}
+
 
 export {
   registerTenant,
@@ -217,6 +227,7 @@ export {
   getAllTenantData,
   getAllVideoDetails,
   auth,
-  onAuthStateChanged
+  onAuthStateChanged,
+  updateFirebaseDocValue
 };
 
