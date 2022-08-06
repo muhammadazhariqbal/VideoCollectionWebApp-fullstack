@@ -27,7 +27,7 @@ const VideoDetailsTable = ({ user }) => {
                   if (doc.data().tenantID === x.data().tenantID) {
                     arr.push(...arr, { ...doc.data(), docID: doc.id })
                     setAllVideos(arr)
-                    setIsLoading(false)
+                   
                   }
                 })
               })
