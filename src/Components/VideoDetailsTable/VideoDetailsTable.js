@@ -15,23 +15,24 @@ function createData(name, email, videoLink, status, action) {
 
 const VideoDetailsTable = ({ user }) => {
 
-  const [currentUser, setcurrentUser] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
   const [allVideos, setAllVideos] = useState([]);
   const [allVideosOfCurrentUser, setAllVideosOfCurrentUser] = useState([]);
   const setAuthAndVideosOfCurrentUser = async () => {
     await getAllTenantData()
       .then((response) => {
+        var arr = [];
         response.forEach((x) => {
           if (user.uid === x.data().userID) {
-            setcurrentUser(x.data());
-           
+            
             getAllVideoDetails()
               .then(response => {
                 response.forEach((doc) => {
 
                   if (doc.data().tenantID === x.data().tenantID) {
-                    setAllVideos({...doc.data(),docID : doc.id})
-                    
+                    arr.push(...arr,{...doc.data(),docID:doc.id})
+                   setAllVideos(arr)
+                   setIsLoading(false)
                   }
                 })
               })
@@ -39,6 +40,9 @@ const VideoDetailsTable = ({ user }) => {
 
           }
         })
+      
+        
+                    
       })
 
 
@@ -47,9 +51,7 @@ const VideoDetailsTable = ({ user }) => {
     setAuthAndVideosOfCurrentUser();
 
   }, [])
-
-  const rows = [allVideos];
-  console.log(rows);
+console.log(allVideos)
   return (
 
     <TableContainer component={Paper}>
@@ -64,15 +66,16 @@ const VideoDetailsTable = ({ user }) => {
 
           </TableRow>
         </TableHead>
+
         <TableBody>
           
-           {rows.map(data=>{
+           {allVideos[0] ? allVideos.map(data=>{
 
-            if(data){
+          
            
            
             return  <TableRow
-            key={data.tenantID}
+            key={data.docID}
             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
           >
             <TableCell component="th" scope="row">
@@ -97,8 +100,8 @@ const VideoDetailsTable = ({ user }) => {
               }}>REJECT</Button>
             </TableCell>
            
-          </TableRow>  } 
-           })}
+          </TableRow>  
+           }) : <Typography variant="p" textAlign='center'>No Video Available!</Typography>}
            
         </TableBody>
       </Table>
