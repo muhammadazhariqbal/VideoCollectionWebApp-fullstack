@@ -122,10 +122,10 @@ const addUploadVideoDetails = async (name, email, videoURL, tenantID) => {
       videoURL,
       tenantID,
       videoStatus:'Pending',
-      docID : documentId()
+     
 
     });
-    console.log("Document written with ID: ", docRef.id);
+    // console.log("Document written with ID: ", docRef.id);
     alert("Thanks for Uploading Video!")
 
   } catch (e) {
