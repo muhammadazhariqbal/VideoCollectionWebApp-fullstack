@@ -4,7 +4,7 @@ import { initializeApp } from "firebase/app";
 // https://firebase.google.com/docs/web/setup#available-libraries
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "firebase/auth";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
-import { getFirestore, collection, addDoc, getDocs ,doc, updateDoc , documentId} from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs ,doc, updateDoc} from "firebase/firestore";
 
 
 // Your web app's Firebase configuration
@@ -40,7 +40,7 @@ const addRegisteredTenantDetails = async (email, firstName, lastName, companyNam
       tenantID,
       userID
     });
-    // console.log("Document written with ID: ", docRef.id);
+    console.log("Document written with ID: ", docRef.id);
     alert("Thanks for Signing up!")
 
   } catch (e) {
@@ -59,7 +59,7 @@ const registerTenant = (email, password, firstName, lastName, companyName, tenan
       resolve(user);
     })
     .catch((error) => {
-      const errorCode = error.code;
+    
       const errorMessage = error.message;
      reject(errorMessage);
     });
@@ -76,7 +76,7 @@ const signInTenant = (email, password) => {
     
     })
     .catch((error) => {
-      const errorCode = error.code;
+      
       const errorMessage = error.message;
       reject(errorMessage)
     });
@@ -95,23 +95,26 @@ const authenticateTenantUsingGoogle = () => {
       const user = result.user;
       console.log(token)
       console.log(user)
+      console.log(credential)
       // ...
     }).catch((error) => {
       // Handle Errors here.
-      const errorCode = error.code;
+    
       const errorMessage = error.message;
       // The email of the user's account used.
       const email = error.customData.email;
       // The AuthCredential type that was used.
       const credential = GoogleAuthProvider.credentialFromError(error);
+      console.log(credential)
       console.log(errorMessage)
+      console.log(email)
       // ...
     });
 }
 
 const signOutTenant = () => {
   signOut(auth)
-    .then(res => { console.log("sign out success!") })
+    .then((res) => { console.log("sign out success!") })
     .catch(error => { console.log(error.message) })
 }
 const addUploadVideoDetails = async (name, email, videoURL, tenantID) => {
@@ -125,7 +128,7 @@ const addUploadVideoDetails = async (name, email, videoURL, tenantID) => {
      
 
     });
-    // console.log("Document written with ID: ", docRef.id);
+    console.log("Document written with ID: ", docRef.id);
     alert("Thanks for Uploading Video!")
 
   } catch (e) {
@@ -146,17 +149,9 @@ const uploadVideoToFirebase = (file) => {
     // Listen for state changes, errors, and completion of the upload.
     uploadTask.on('state_changed',
       (snapshot) => {
-        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         console.log(progress);
-        switch (snapshot.state) {
-          case 'paused':
-            return "paused";
-            break;
-          case 'running':
-            return 'Upload is running';
-            break;
-        }
+        
       },
       (error) => {
         // A full list of error codes is available at

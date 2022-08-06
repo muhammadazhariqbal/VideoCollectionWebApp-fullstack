@@ -3,7 +3,7 @@ import { VideoDetailsTable } from '../../Components';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
-import { signOutTenant, getAllTenantData, getAllVideoDetails } from '../../Services/firebase';
+import { signOutTenant, getAllTenantData } from '../../Services/firebase';
 import { useNavigate } from "react-router-dom";
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -23,7 +23,7 @@ useEffect(()=>{
         }
       })
     })
-},[])
+},[user])
 
 
   return (
