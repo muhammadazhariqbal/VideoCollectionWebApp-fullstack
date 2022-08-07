@@ -4,7 +4,7 @@ import { initializeApp } from "firebase/app";
 // https://firebase.google.com/docs/web/setup#available-libraries
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "firebase/auth";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
-import { getFirestore, collection, addDoc, getDocs ,doc, updateDoc} from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs, doc, updateDoc } from "firebase/firestore";
 
 
 // Your web app's Firebase configuration
@@ -51,92 +51,90 @@ const addRegisteredTenantDetails = async (email, firstName, lastName, companyNam
 
 }
 const registerTenant = (email, password, firstName, lastName, companyName, tenantID) => {
-  return new Promise((resolve,reject)=>{
+  return new Promise((resolve, reject) => {
     createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in 
-      const user = userCredential.user;
-      addRegisteredTenantDetails(email, firstName, lastName, companyName, tenantID, user.uid);
-      resolve(user);
-    })
-    .catch((error) => {
-    
-      const errorMessage = error.message;
-     reject(errorMessage);
-    });
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        addRegisteredTenantDetails(email, firstName, lastName, companyName, tenantID, user.uid);
+        resolve(user);
+      })
+      .catch((error) => {
+
+        const errorMessage = error.message;
+        reject(errorMessage);
+      });
   })
-  
+
 }
 const signInTenant = (email, password) => {
-  return new Promise((resolve,reject)=>{
+  return new Promise((resolve, reject) => {
     signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in 
-    const user = userCredential.user;
-     resolve(user)
-    
-    })
-    .catch((error) => {
-      
-      const errorMessage = error.message;
-      reject(errorMessage)
-    });
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        resolve(user)
+
+      })
+      .catch((error) => {
+
+        const errorMessage = error.message;
+        reject(errorMessage)
+      });
 
   })
- 
+
 }
 
 const authenticateTenantUsingGoogle = () => {
   signInWithPopup(auth, provider)
     .then((result) => {
       // This gives you a Google Access Token. You can use it to access the Google API.
-      const credential = GoogleAuthProvider.credentialFromResult(result);
+      // const credential = GoogleAuthProvider.credentialFromResult(result);
       // const token = credential.accessToken;
       // The signed-in user info.
       const user = result.user;
-      // console.log(token)
-      console.log(user.displayName)
-      console.log(user.email)
-      console.log(user.uid)
+
       var fullName = user.displayName.split(" ");
       var firstName = fullName[0];
       var lastName = fullName[1];
-      var companyName=false;
-      var tenantID=false;
+      var companyName = false;
+      var tenantID = false;
       var x = true;
       getAllTenantData()
-      .then((response) => {
-        
-        response.forEach((doc) => {
-          
-          if (user.uid === doc.data().userID) {
-           x=false;
-          } 
+        .then((response) => {
 
-          
+          response.forEach((doc) => {
+
+            if (user.uid === doc.data().userID) {
+              x = false;
+            }
+
+
+          })
+          console.log(x)
+          if (x) {
+            addRegisteredTenantDetails(user.email, firstName, lastName, companyName, tenantID, user.uid)
+
+          } else {
+            console.log("store nh krni h")
+          }
         })
-        console.log(x)
-        if(x){
-          addRegisteredTenantDetails(user.email, firstName, lastName, companyName, tenantID, user.uid)
-          
-        } else {
-          console.log("store nh krni h")
-        }
-      })
 
 
       // ...
     }).catch((error) => {
       // Handle Errors here.
-    
+
       const errorMessage = error.message;
       // The email of the user's account used.
-      const email = error.customData.email;
+      // const email = error.customData.email;
       // The AuthCredential type that was used.
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      console.log(credential)
-      console.log(errorMessage)
-      console.log(email)
+      // const credential = GoogleAuthProvider.credentialFromError(error);
+      // console.log(credential)
+      // console.log(errorMessage)
+      // console.log(email)
+      alert(errorMessage)
       // ...
     });
 }
@@ -153,8 +151,8 @@ const addUploadVideoDetails = async (name, email, videoURL, tenantID) => {
       email,
       videoURL,
       tenantID,
-      videoStatus:'Pending',
-     
+      videoStatus: 'Pending',
+
 
     });
     console.log("Document written with ID: ", docRef.id);
@@ -180,7 +178,7 @@ const uploadVideoToFirebase = (file) => {
       (snapshot) => {
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         console.log(progress);
-        
+
       },
       (error) => {
         // A full list of error codes is available at
@@ -201,8 +199,9 @@ const uploadVideoToFirebase = (file) => {
             // Unknown error occurred, inspect error.serverResponse
             reject(error.serverResponse)
             break;
+          default:
+            reject("try again!")
 
-         
         }
       },
       () => {
@@ -217,39 +216,39 @@ const uploadVideoToFirebase = (file) => {
 }
 
 const getAllTenantData = () => {
-  return new Promise(async(resolve,reject)=>{
+  return new Promise(async (resolve, reject) => {
     const querySnapshot = await getDocs(collection(db, "allTenants"));
     resolve(querySnapshot)
 
   })
 }
 const getAllVideoDetails = () => {
-  return new Promise(async(resolve,reject)=>{
-    
+  return new Promise(async (resolve, reject) => {
 
-const querySnapshot = await getDocs(collection(db, "allVideosWithDetails"));
-resolve(querySnapshot);
-});
-  
+
+    const querySnapshot = await getDocs(collection(db, "allVideosWithDetails"));
+    resolve(querySnapshot);
+  });
+
 }
 
-const updateFirebaseVideosDocValue= (docID,value) => {
+const updateFirebaseVideosDocValue = (docID, value) => {
   console.log(`doc id : ${docID}  value : ${value}`)
   const docRef = doc(db, "allVideosWithDetails", docID);
-   updateDoc(docRef, {
+  updateDoc(docRef, {
     videoStatus: value
   });
-  
+
 }
-const updateFirebaseTenantsDocValue= (docID,value) => {
+const updateFirebaseTenantsDocValue = (docID, value) => {
   console.log(`doc id : ${docID}  value : ${value}`)
   var ID = value.replace(/\s+/g, '-');
   const docRef = doc(db, "allTenants", docID);
-   updateDoc(docRef, {
+  updateDoc(docRef, {
     companyName: value,
-    tenantID:ID
+    tenantID: ID
   });
-  
+
 }
 
 

@@ -27,9 +27,18 @@ const DashboardPage = ({ user }) => {
     p: 4,
   };
   useEffect(() => {
-    getAndSetTenantCurrentUser();
-    
-  },[companyName])
+    getAllTenantData()
+      .then((response) => {
+        
+        response.forEach((doc) => {
+        
+          if (user.uid === doc.data().userID) {
+            setcurrentUser({ ...doc.data(), docID: doc.id });
+
+          }
+        })
+      })
+  },[user])
   const getAndSetTenantCurrentUser = () => {
     getAllTenantData()
       .then((response) => {
