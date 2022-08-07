@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button, Link, Typography } from '@mui/material';
-import { getAllTenantData, getAllVideoDetails, updateFirebaseDocValue } from "../../Services/firebase";
+import { getAllTenantData, getAllVideoDetails, updateFirebaseVideosDocValue } from "../../Services/firebase";
 
 
 const VideoDetailsTable = ({ user }) => {
@@ -85,11 +85,11 @@ const VideoDetailsTable = ({ user }) => {
               </TableCell>
               <TableCell>
                 <Button onClick={() => {
-                  updateFirebaseDocValue(data.docID, "Approved");
+                  updateFirebaseVideosDocValue(data.docID, "Approved");
                   setAuthAndVideosOfCurrentUser();
                 }}>APPROVE</Button>
                 <Button onClick={() => {
-                  updateFirebaseDocValue(data.docID, "Rejected");
+                  updateFirebaseVideosDocValue(data.docID, "Rejected");
                   setAuthAndVideosOfCurrentUser();
                 }}>REJECT</Button>
               </TableCell>

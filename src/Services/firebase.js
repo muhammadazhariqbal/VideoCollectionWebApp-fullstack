@@ -9,12 +9,13 @@ import { getFirestore, collection, addDoc, getDocs ,doc, updateDoc} from "fireba
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCx6H2bsBp6oJMmowD9TNieb-rApkvudj8",
-  authDomain: "videocollectionwebapp.firebaseapp.com",
-  projectId: "videocollectionwebapp",
-  storageBucket: "videocollectionwebapp.appspot.com",
-  messagingSenderId: "304751645922",
-  appId: "1:304751645922:web:746daabc0c75c5908bfabb"
+  apiKey: "AIzaSyDbk8vxwm4aMps9n8oDBuHyiXSCQbb2z7g",
+  authDomain: "testimonials-9138d.firebaseapp.com",
+  projectId: "testimonials-9138d",
+  storageBucket: "testimonials-9138d.appspot.com",
+  messagingSenderId: "642553618341",
+  appId: "1:642553618341:web:0f5ecdf1f5ecc17671524c",
+  measurementId: "G-QWJ0F6JQM6"
 };
 
 // Initialize Firebase
@@ -93,9 +94,28 @@ const authenticateTenantUsingGoogle = () => {
       const token = credential.accessToken;
       // The signed-in user info.
       const user = result.user;
-      console.log(token)
-      console.log(user)
-      console.log(credential)
+      // console.log(token)
+      console.log(user.displayName)
+      console.log(user.email)
+      console.log(user.uid)
+      var fullName = user.displayName.split(" ");
+      var firstName = fullName[0];
+      var lastName = fullName[1];
+      var companyName=false;
+      var tenantID=false;
+      getAllTenantData()
+      .then((response) => {
+        response.forEach((doc) => {
+          if (user.uid === doc.data().userID) {
+            return null
+          } else {
+            addRegisteredTenantDetails(user.email, firstName, lastName, companyName, tenantID, user.uid)
+
+          }
+        })
+      })
+
+
       // ...
     }).catch((error) => {
       // Handle Errors here.
@@ -202,11 +222,21 @@ resolve(querySnapshot);
   
 }
 
-const updateFirebaseDocValue= (docID,value) => {
+const updateFirebaseVideosDocValue= (docID,value) => {
   console.log(`doc id : ${docID}  value : ${value}`)
   const docRef = doc(db, "allVideosWithDetails", docID);
    updateDoc(docRef, {
     videoStatus: value
+  });
+  
+}
+const updateFirebaseTenantsDocValue= (docID,value) => {
+  console.log(`doc id : ${docID}  value : ${value}`)
+  var ID = value.replace(/\s+/g, '-');
+  const docRef = doc(db, "allTenants", docID);
+   updateDoc(docRef, {
+    companyName: value,
+    tenantID:ID
   });
   
 }
@@ -223,6 +253,7 @@ export {
   getAllVideoDetails,
   auth,
   onAuthStateChanged,
-  updateFirebaseDocValue
+  updateFirebaseTenantsDocValue,
+  updateFirebaseVideosDocValue
 };
 
