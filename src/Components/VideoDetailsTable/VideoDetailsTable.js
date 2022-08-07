@@ -8,44 +8,48 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button, Link, Typography } from '@mui/material';
 import { getAllTenantData, getAllVideoDetails, updateFirebaseVideosDocValue } from "../../Services/firebase";
-
-
 const VideoDetailsTable = ({ user }) => {
-
   const [allVideos, setAllVideos] = useState([]);
-  const setAuthAndVideosOfCurrentUser = async () => {
-    await getAllTenantData()
-      .then((response) => {
-        var arr = [];
-        response.forEach((x) => {
-          if (user.uid === x.data().userID) {
 
-            getAllVideoDetails()
-              .then(response => {
-                response.forEach((doc) => {
-
-                  if (doc.data().tenantID === x.data().tenantID) {
-                    arr.push(...arr, { ...doc.data(), docID: doc.id })
-                    setAllVideos(arr)
-                   
-                  }
-                })
-              })
-
-
-          }
-        })
-
-
-
-      })
-
-
-  }
   useEffect(() => {
-    setAuthAndVideosOfCurrentUser();
-
+    getAllTenantData()
+                  .then((response) => {
+                    var arr = [];
+                    response.forEach((x) => {
+                      if (user.uid === x.data().userID) {
+                        getAllVideoDetails()
+                          .then(response => {
+                            response.forEach((doc) => {
+                              if (doc.data().tenantID === x.data().tenantID) {
+                                arr.push(...arr, { ...doc.data(), docID: doc.id })
+                                setAllVideos(arr)
+                              }
+                            })
+                          })
+                      }
+                    })
+                  })
   },[user])
+  
+  const setAndUpdateVideosDetails = () => {
+    getAllTenantData()
+                  .then((response) => {
+                    var arr = [];
+                    response.forEach((x) => {
+                      if (user.uid === x.data().userID) {
+                        getAllVideoDetails()
+                          .then(response => {
+                            response.forEach((doc) => {
+                              if (doc.data().tenantID === x.data().tenantID) {
+                                arr.push(...arr, { ...doc.data(), docID: doc.id })
+                                setAllVideos(arr)
+                              }
+                            })
+                          })
+                      }
+                    })
+                  })
+  }
   return (
 
     <TableContainer component={Paper}>
@@ -57,17 +61,10 @@ const VideoDetailsTable = ({ user }) => {
             <TableCell >Uploaded Video</TableCell>
             <TableCell>Status</TableCell>
             <TableCell>Action</TableCell>
-
           </TableRow>
         </TableHead>
-
         <TableBody>
-
           {allVideos[0] ? allVideos.map(data => {
-
-
-
-
             return <TableRow
               key={data.docID}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -85,12 +82,16 @@ const VideoDetailsTable = ({ user }) => {
               </TableCell>
               <TableCell>
                 <Button onClick={() => {
-                  updateFirebaseVideosDocValue(data.docID, "Approved");
-                  setAuthAndVideosOfCurrentUser();
+
+updateFirebaseVideosDocValue(data.docID, "Approved");
+setAndUpdateVideosDetails();
+
+                 
                 }}>APPROVE</Button>
                 <Button onClick={() => {
                   updateFirebaseVideosDocValue(data.docID, "Rejected");
-                  setAuthAndVideosOfCurrentUser();
+                  setAndUpdateVideosDetails();
+               
                 }}>REJECT</Button>
               </TableCell>
 

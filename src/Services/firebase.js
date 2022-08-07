@@ -91,7 +91,7 @@ const authenticateTenantUsingGoogle = () => {
     .then((result) => {
       // This gives you a Google Access Token. You can use it to access the Google API.
       const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
+      // const token = credential.accessToken;
       // The signed-in user info.
       const user = result.user;
       // console.log(token)
@@ -103,16 +103,25 @@ const authenticateTenantUsingGoogle = () => {
       var lastName = fullName[1];
       var companyName=false;
       var tenantID=false;
+      var x = true;
       getAllTenantData()
       .then((response) => {
+        
         response.forEach((doc) => {
+          
           if (user.uid === doc.data().userID) {
-            return null
-          } else {
-            addRegisteredTenantDetails(user.email, firstName, lastName, companyName, tenantID, user.uid)
+           x=false;
+          } 
 
-          }
+          
         })
+        console.log(x)
+        if(x){
+          addRegisteredTenantDetails(user.email, firstName, lastName, companyName, tenantID, user.uid)
+          
+        } else {
+          console.log("store nh krni h")
+        }
       })
 
 
@@ -192,6 +201,8 @@ const uploadVideoToFirebase = (file) => {
             // Unknown error occurred, inspect error.serverResponse
             reject(error.serverResponse)
             break;
+
+         
         }
       },
       () => {
