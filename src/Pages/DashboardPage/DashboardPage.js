@@ -55,7 +55,7 @@ const DashboardPage = ({ user }) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  console.log(currentUser)
+
   return (
     <Box>
       <Typography variant='h3' align="center" color="#1976d2" fontWeight="bold">Dashboard </Typography>
@@ -93,7 +93,7 @@ const DashboardPage = ({ user }) => {
                   <TextField label="Company Name" variant="outlined" value={companyName} required onChange={(e) => { setCompanyName(e.target.value) }} />
                   <br></br>
                   <Button variant="contained" size="large" onClick={() => {
-                    console.log(currentUser)
+                  
                     updateFirebaseTenantsDocValue(currentUser.docID, companyName);
                     getAndSetTenantCurrentUser()
                   }}>DONE</Button>

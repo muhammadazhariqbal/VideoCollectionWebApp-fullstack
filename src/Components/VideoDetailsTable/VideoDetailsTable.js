@@ -13,42 +13,42 @@ const VideoDetailsTable = ({ user }) => {
 
   useEffect(() => {
     getAllTenantData()
-                  .then((response) => {
-                    var arr = [];
-                    response.forEach((x) => {
-                      if (user.uid === x.data().userID) {
-                        getAllVideoDetails()
-                          .then(response => {
-                            response.forEach((doc) => {
-                              if (doc.data().tenantID === x.data().tenantID) {
-                                arr.push(...arr, { ...doc.data(), docID: doc.id })
-                                setAllVideos(arr)
-                              }
-                            })
-                          })
-                      }
-                    })
-                  })
-  },[user])
-  
+      .then((response) => {
+        var arr = [];
+        response.forEach((x) => {
+          if (user.uid === x.data().userID) {
+            getAllVideoDetails()
+              .then(response => {
+                response.forEach((doc) => {
+                  if (doc.data().tenantID === x.data().tenantID) {
+                    arr.push(...arr, { ...doc.data(), docID: doc.id })
+                    setAllVideos(arr)
+                  }
+                })
+              })
+          }
+        })
+      })
+  }, [user])
+
   const setAndUpdateVideosDetails = () => {
     getAllTenantData()
-                  .then((response) => {
-                    var arr = [];
-                    response.forEach((x) => {
-                      if (user.uid === x.data().userID) {
-                        getAllVideoDetails()
-                          .then(response => {
-                            response.forEach((doc) => {
-                              if (doc.data().tenantID === x.data().tenantID) {
-                                arr.push(...arr, { ...doc.data(), docID: doc.id })
-                                setAllVideos(arr)
-                              }
-                            })
-                          })
-                      }
-                    })
-                  })
+      .then((response) => {
+        var arr = [];
+        response.forEach((x) => {
+          if (user.uid === x.data().userID) {
+            getAllVideoDetails()
+              .then(response => {
+                response.forEach((doc) => {
+                  if (doc.data().tenantID === x.data().tenantID) {
+                    arr.push(...arr, { ...doc.data(), docID: doc.id })
+                    setAllVideos(arr)
+                  }
+                })
+              })
+          }
+        })
+      })
   }
   return (
 
@@ -88,15 +88,15 @@ const VideoDetailsTable = ({ user }) => {
               <TableCell>
                 <Button onClick={() => {
 
-updateFirebaseVideosDocValue(data.docID, "Approved");
-setAndUpdateVideosDetails();
+                  updateFirebaseVideosDocValue(data.docID, "Approved");
+                  setAndUpdateVideosDetails();
 
-                 
+
                 }}>APPROVE</Button>
                 <Button onClick={() => {
                   updateFirebaseVideosDocValue(data.docID, "Rejected");
                   setAndUpdateVideosDetails();
-               
+
                 }}>REJECT</Button>
               </TableCell>
 

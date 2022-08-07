@@ -8,7 +8,7 @@ import {
 // import your route components too
 import { RegisterPage,SignInPage, UploadVideoPage, DashboardPage,VideoListPage} from '../Pages';
 const Navigation = ({user}) => {
-console.log(`user in route==> ${user}`)
+
   return <BrowserRouter>
     <Routes>
       <Route path="/"  element={user ? <Navigate to="/dashboard" replace />  : <SignInPage />}></Route>

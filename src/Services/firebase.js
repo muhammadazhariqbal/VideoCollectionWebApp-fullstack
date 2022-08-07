@@ -41,7 +41,6 @@ const addRegisteredTenantDetails = async (email, firstName, lastName, companyNam
       tenantID,
       userID
     });
-    console.log("Document written with ID: ", docRef.id);
     alert("Thanks for Signing up!")
 
   } catch (e) {
@@ -112,37 +111,29 @@ const authenticateTenantUsingGoogle = () => {
 
 
           })
-          console.log(x)
+         
           if (x) {
             addRegisteredTenantDetails(user.email, firstName, lastName, companyName, tenantID, user.uid)
 
           } else {
-            console.log("store nh krni h")
+           return null
           }
         })
 
 
       // ...
     }).catch((error) => {
-      // Handle Errors here.
-
+      
       const errorMessage = error.message;
-      // The email of the user's account used.
-      // const email = error.customData.email;
-      // The AuthCredential type that was used.
-      // const credential = GoogleAuthProvider.credentialFromError(error);
-      // console.log(credential)
-      // console.log(errorMessage)
-      // console.log(email)
       alert(errorMessage)
-      // ...
+      
     });
 }
 
 const signOutTenant = () => {
   signOut(auth)
     .then((res) => { console.log("sign out success!") })
-    .catch(error => { console.log(error.message) })
+    .catch(error => { alert(error.message) })
 }
 const addUploadVideoDetails = async (name, email, videoURL, tenantID,msg) => {
   try {
@@ -156,7 +147,7 @@ const addUploadVideoDetails = async (name, email, videoURL, tenantID,msg) => {
 
 
     });
-    console.log("Document written with ID: ", docRef.id);
+    
     alert("Thanks for Uploading Video!")
 
   } catch (e) {
@@ -234,7 +225,7 @@ const getAllVideoDetails = () => {
 }
 
 const updateFirebaseVideosDocValue = (docID, value) => {
-  console.log(`doc id : ${docID}  value : ${value}`)
+
   const docRef = doc(db, "allVideosWithDetails", docID);
   updateDoc(docRef, {
     videoStatus: value
@@ -242,7 +233,6 @@ const updateFirebaseVideosDocValue = (docID, value) => {
 
 }
 const updateFirebaseTenantsDocValue = (docID, value) => {
-  console.log(`doc id : ${docID}  value : ${value}`)
   var ID = value.replace(/\s+/g, '-');
   const docRef = doc(db, "allTenants", docID);
   updateDoc(docRef, {
