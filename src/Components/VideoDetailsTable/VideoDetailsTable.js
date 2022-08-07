@@ -59,6 +59,7 @@ const VideoDetailsTable = ({ user }) => {
             <TableCell>Costumer Name</TableCell>
             <TableCell >Email</TableCell>
             <TableCell >Uploaded Video</TableCell>
+            <TableCell>Message</TableCell>
             <TableCell>Status</TableCell>
             <TableCell>Action</TableCell>
           </TableRow>
@@ -75,6 +76,10 @@ const VideoDetailsTable = ({ user }) => {
               <TableCell >{data.email}</TableCell>
               <TableCell  >
                 <Link href={data.videoURL} target="_blank" underline="hover">View Video</Link>
+              </TableCell>
+              <TableCell  >
+
+                <Typography variant="p">{data.msg}</Typography>
               </TableCell>
               <TableCell  >
 

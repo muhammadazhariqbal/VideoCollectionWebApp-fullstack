@@ -32,7 +32,7 @@ const UploadVideoForm = () => {
         await uploadVideoToFirebase(videoFile.target.files)
             .then((response) => {
                 setIsShowBTN(true);
-                addUploadVideoDetails(name, email, response, tenantID);
+                addUploadVideoDetails(name, email, response, tenantID, msg);
 
             })
             .catch(error => {

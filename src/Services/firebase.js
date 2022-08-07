@@ -144,7 +144,7 @@ const signOutTenant = () => {
     .then((res) => { console.log("sign out success!") })
     .catch(error => { console.log(error.message) })
 }
-const addUploadVideoDetails = async (name, email, videoURL, tenantID) => {
+const addUploadVideoDetails = async (name, email, videoURL, tenantID,msg) => {
   try {
     const docRef = await addDoc(collection(db, "allVideosWithDetails"), {
       name,
@@ -152,6 +152,7 @@ const addUploadVideoDetails = async (name, email, videoURL, tenantID) => {
       videoURL,
       tenantID,
       videoStatus: 'Pending',
+      msg,
 
 
     });
