@@ -9,13 +9,12 @@ import { getFirestore, collection, addDoc, getDocs, doc, updateDoc } from "fireb
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDbk8vxwm4aMps9n8oDBuHyiXSCQbb2z7g",
-  authDomain: "testimonials-9138d.firebaseapp.com",
-  projectId: "testimonials-9138d",
-  storageBucket: "testimonials-9138d.appspot.com",
-  messagingSenderId: "642553618341",
-  appId: "1:642553618341:web:0f5ecdf1f5ecc17671524c",
-  measurementId: "G-QWJ0F6JQM6"
+ apiKey: "AIzaSyCx6H2bsBp6oJMmowD9TNieb-rApkvudj8",
+  authDomain: "videocollectionwebapp.firebaseapp.com",
+  projectId: "videocollectionwebapp",
+  storageBucket: "videocollectionwebapp.appspot.com",
+  messagingSenderId: "304751645922",
+  appId: "1:304751645922:web:746daabc0c75c5908bfabb"
 };
 
 // Initialize Firebase
